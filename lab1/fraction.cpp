@@ -1,6 +1,6 @@
 #include "fraction.h"
 
-int gcd(int a, int b) { //ÍÎÄ
+int gcd(int a, int b) { //ĞĞĞ”
     int r1 = abs(max(a, b));
     int r2 = abs(min(a, b));
     while (r2 != 0)
@@ -14,7 +14,7 @@ int gcd(int a, int b) { //ÍÎÄ
     return r1;
 }
 
-int lcm(int a, int b) { //ÍÎÊ
+int lcm(int a, int b) { //ĞĞĞš
     return abs(a * b) / gcd(a, b);
 }
 
