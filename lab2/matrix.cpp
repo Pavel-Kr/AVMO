@@ -43,6 +43,22 @@ void swap(vector<int>& vec, int a, int b) {
 	vec[b] = tmp;
 }
 
+void sort2VectorsBy1st(vector<int>& vec1, vector<int>& vec2) {
+	for (int i = 0; i < vec1.size() - 1; i++) {
+		int min = vec1[i], min_index = i;
+		for (int j = i + 1; j < vec1.size(); j++) {
+			if (vec1[j] < min) {
+				min = vec1[j];
+				min_index = j;
+			}
+		}
+		if (i != min_index) {
+			swap(vec1, i, min_index);
+			swap(vec2, i, min_index);
+		}
+	}
+}
+
 vector<int> Matrix::findBasisRows(Permutation perm)
 {
 	vector<int> total, columns, res;
@@ -57,19 +73,7 @@ vector<int> Matrix::findBasisRows(Permutation perm)
 		row_taken.push_back(false);
 		res.push_back(0);
 	}
-	for (int i = 0; i < rows - 1; i++) {
-		int min = total[i], min_index = i;
-		for (int j = i + 1; j < rows; j++) {
-			if (total[j] < min) {
-				min = total[j];
-				min_index = j;
-			}
-		}
-		if (i != min_index) {
-			swap(total, i, min_index);
-			swap(columns, i, min_index);
-		}
-	}
+	sort2VectorsBy1st(total, columns);
 	for (int i = 0; i < rows; i++) {
 		int column = columns[i];
 		for (int j = 0; j < rows; j++) {
@@ -89,19 +93,7 @@ vector<int> Matrix::findBasisRows(Permutation perm)
 			}
 		}
 	}
-	for (int i = 0; i < rows - 1; i++) {
-		int min = columns[i], min_index = i;
-		for (int j = i + 1; j < rows; j++) {
-			if (columns[j] < min) {
-				min = columns[j];
-				min_index = j;
-			}
-		}
-		if (i != min_index) {
-			swap(res, i, min_index);
-			swap(columns, i, min_index);
-		}
-	}
+	sort2VectorsBy1st(columns, res);
 	cout << "Строки базиса:" << endl;
 	for (int i = 0; i < rows; i++) {
 		cout << res[i] << " ";
