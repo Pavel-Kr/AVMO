@@ -95,11 +95,13 @@ vector<int> Matrix::findBasisRows(Permutation perm)
 		}
 	}
 	//sort2VectorsBy1st(columns, res);
-	/*cout << "Строки базиса:" << endl;
+#ifdef DEBUG
+	cout << "Строки базиса:" << endl;
 	for (int i = 0; i < rows; i++) {
 		cout << res[i] << " ";
 	}
-	cout << endl;*/
+	cout << endl;
+#endif
 	return res;
 }
 
@@ -111,17 +113,23 @@ bool Matrix::makeIdentity(Permutation perm)
 	}
 	for (int i = 0; i < rows; i++) {
 		int row = basisRows[i], col = perm[i];
-		//cout << "Деление строки " << row << " на ";
-		//matrix[row][col].print();
-		//cout << ":\n";
+#ifdef DEBUG
+		cout << "Деление строки " << row << " на ";
+		matrix[row][col].print();
+		cout << ":\n";
+#endif
 		divideRowByFrac(row, matrix[row][col]);
-		//print();
-		//cout << "Вычитание строки " << row << " из остальных строк:\n";
+#ifdef DEBUG
+		print();
+		cout << "Вычитание строки " << row << " из остальных строк:\n";
+#endif
 		for (int j = 0; j < rows; j++) {
 			if (j == row) continue;
 			subtractRowMultiplied(j, row, matrix[j][col]);
 		}
-		//print();
+#ifdef DEBUG
+		print();
+#endif
 	}
 	return true;
 }
@@ -234,9 +242,11 @@ void Matrix::gauss()
 	for (int i = 0; i < rows; i++) {
 		int max_index = findMaxColIndex(col, i);
 		if (i != max_index) {
-			//cout << "Переставление строк " << i << " и " << max_index << ":\n";
 			swapRows(i, max_index);
-			//print();
+#ifdef DEBUG
+			cout << "Переставление строк " << i << " и " << max_index << ":\n";
+			print();
+#endif
 		}
 		else if (matrix[max_index][col].isZero()) {
 			int tmp_col = col + 1;
@@ -254,23 +264,31 @@ void Matrix::gauss()
 				break;
 			}
 			else {
-				//cout << "Переставление строк " << i << " и " << max_index << ":\n";
 				swapRows(i, max_index);
-				//print();
+#ifdef DEBUG
+				cout << "Переставление строк " << i << " и " << max_index << ":\n";
+				print();
+#endif
 				col = tmp_col;
 			}
 		}
-		//cout << "Деление строки " << i << " на ";
-		//matrix[i][col].print();
-		//cout << ":\n";
+#ifdef DEBUG
+		cout << "Деление строки " << i << " на ";
+		matrix[i][col].print();
+		cout << ":\n";
+#endif
 		divideRowByFrac(i, matrix[i][col]);
-		//print();
+#ifdef DEBUG
+		print();
+#endif
 		for (int j = 0; j < rows; j++) {
 			if (j == i) continue;
 			subtractRowMultiplied(j, i, matrix[j][col]);
 		}
-		//cout << "Вычитание строки " << i << " из остальных строк:\n";
-		//print();
+#ifdef DEBUG
+		cout << "Вычитание строки " << i << " из остальных строк:\n";
+		print();
+#endif
 		col++;
 	}
 	return;

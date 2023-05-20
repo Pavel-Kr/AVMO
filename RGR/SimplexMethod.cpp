@@ -17,11 +17,13 @@ void SimplexMethod::simplexGauss()
 void SimplexMethod::reorderBasis()
 {
 	vector<int> basisRows = findBasisRows(basis_vars);
-	/*cout << "Basis rows:" << endl;
+#ifdef DEBUG
+	cout << "Basis rows:" << endl;
 	for (int i = 0; i < basisRows.size(); i++) {
 		cout << basisRows[i] << " ";
 	}
-	cout << endl;*/
+	cout << endl;
+#endif
 	sort2VectorsBy1st(basisRows, basis_vars.perm);
 }
 
@@ -42,12 +44,16 @@ bool SimplexMethod::isReference()
 Permutation SimplexMethod::findRefPlan()
 {
 	simplexGauss();
+#ifdef DEBUG
 	print();
+#endif
 	Permutation result(cols - 1, rows - 1);
 	rows--;
 	do {
-		//cout << "Столбцы предполагаемого базиса" << endl;
-		//result.print();
+#ifdef DEBUG
+		cout << "Столбцы предполагаемого базиса" << endl;
+		result.print();
+#endif
 		save();
 		if (makeIdentity(result)) {
 			cout << "\nБазис:\n";
@@ -103,7 +109,7 @@ void SimplexMethod::print()
 
 void SimplexMethod::solve()
 {
-	cout << "\nНаходим опорное решение методом Жордана - Гауссаn\n";
+	cout << "\nНаходим опорное решение методом Жордана - Гаусса\n";
 	basis_vars = findRefPlan();
 	rows--;
 	if (basis_vars.length() < 0) {
@@ -140,7 +146,9 @@ bool SimplexMethod::simplexStep()
 	}
 	if (min_z == 0 && min_col == 0) {
 		rows++;
-		//basis_vars.print();
+#ifdef DEBUG
+		basis_vars.print();
+#endif
 		cout << "\nНайдено оптимальное решение:\n";
 		printSolution();
 		rows--;
@@ -177,12 +185,16 @@ bool SimplexMethod::simplexStep()
 	cout << "\nМинимальное симплекс-отношение = ";
 	min_rel.print();
 	cout << " в строке " << min_row + 1 << endl;
-	//basis_vars.print();
+#ifdef DEBUG
+	basis_vars.print();
+#endif
 	basis_vars.set(min_row, min_col);
 	simplexMakeIdentity();
 	rows++;
 	fixZRow();
-	//print();
+#ifdef DEBUG
+	print();
+#endif
 	return true;
 }
 
@@ -216,7 +228,9 @@ void SimplexMethod::checkMultipleSolutions()
 			cout << "\n\nМинимальное симплекс-отношение = ";
 			min_rel.print();
 			cout << " в строке " << min_row + 1 << endl;
-			//basis_vars.print();
+#ifdef DEBUG
+			basis_vars.print();
+#endif
 			basis_vars.set(min_row, min_col);
 			simplexMakeIdentity();
 			rows++;

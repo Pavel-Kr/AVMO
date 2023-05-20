@@ -3,6 +3,7 @@
 #include <fstream>
 #include "Fraction.h"
 #include "permutation.h"
+//#define DEBUG
 
 class Matrix
 {
